@@ -51,9 +51,15 @@ export class TaskListComponent implements OnInit {
   }
 
   protected toggleTaskStatus(task: Task): void {
-    this.taskService.toggleTaskStatus(task.id, !task.completada).subscribe({
-      next: (updatedTask) => {
-        this.tasks.update((tasks) => tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)));
+    const updatedTask = {
+      titulo: task.titulo,
+      descripcion: task.descripcion,
+      completada: !task.completada
+    };
+    
+    this.taskService.updateTask(task.id, updatedTask).subscribe({
+      next: (result) => {
+        this.tasks.update((tasks) => tasks.map((t) => (t.id === result.id ? result : t)));
       },
       error: (err) => {
         this.error.set('Error al actualizar el estado de la tarea');
