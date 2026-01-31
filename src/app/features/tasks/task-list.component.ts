@@ -54,9 +54,9 @@ export class TaskListComponent implements OnInit {
     const updatedTask = {
       titulo: task.titulo,
       descripcion: task.descripcion,
-      completada: !task.completada
+      completada: !task.completada,
     };
-    
+
     this.taskService.updateTask(task.id, updatedTask).subscribe({
       next: (result) => {
         this.tasks.update((tasks) => tasks.map((t) => (t.id === result.id ? result : t)));
