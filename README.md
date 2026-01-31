@@ -35,7 +35,7 @@ Aplicación Angular 21 que implementa autenticación con tokens JWT y un sistema
 1. **Clonar el repositorio**
 
    ```bash
-   git clone <url-repositorio>
+   git clone https://github.com/ckcristock/AuthenticationTokenFrontend.git
    cd AuthenticationTokenFrontend
    ```
 
