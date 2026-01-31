@@ -28,9 +28,60 @@ Aplicación Angular 21 que implementa autenticación con tokens JWT y un sistema
 
 - Node.js 18+ y npm
 - Angular CLI 21+
-- Backend ASP.NET Core ejecutándose (por defecto en `https://localhost:7000`)
+- MySQL 8+ (para la base de datos)
+- .NET 8 SDK (para ejecutar el backend)
+- Backend ASP.NET Core ejecutándose (por defecto en `http://localhost:7000`)
 
-## 🚀 Instalación
+## 🗄️ Configuración de Base de Datos
+
+Antes de ejecutar la aplicación, debes configurar la base de datos MySQL:
+
+1. **Ejecutar el script SQL**
+
+   Ubicación: `database/setup.sql`
+
+   ```bash
+   mysql -u root -p < database/setup.sql
+   ```
+
+   O importar manualmente en phpMyAdmin/MySQL Workbench
+
+2. **Verificar la creación**
+   - Base de datos: `autenticacion_db`
+   - Tablas: `usuarios`, `tareas`
+   - Usuario de prueba creado: `testadmin`
+
+## 🔧 Configuración del Backend
+
+1. **Clonar el repositorio del backend**
+
+   ```bash
+   git clone https://github.com/ckcristock/AuthenticationTokenBackend.git
+   cd AuthenticationTokenBackend
+   ```
+
+2. **Configurar ConnectionString**
+
+   Edita `appsettings.json`:
+
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=localhost;Database=autenticacion_db;User=root;Password=tu_password;"
+     }
+   }
+   ```
+
+3. **Ejecutar el backend**
+
+   ```bash
+   dotnet restore
+   dotnet run
+   ```
+
+   El backend estará disponible en `http://localhost:7000`
+
+## 🚀 Instalación del Frontend
 
 1. **Clonar el repositorio**
 
@@ -52,7 +103,7 @@ Aplicación Angular 21 que implementa autenticación con tokens JWT y un sistema
    ```typescript
    export const environment = {
      production: false,
-     apiUrl: 'https://localhost:7000/api', // Ajusta según tu backend
+     apiUrl: 'http://localhost:7000/api', // URL del backend
    };
    ```
 
@@ -63,6 +114,24 @@ Aplicación Angular 21 que implementa autenticación con tokens JWT y un sistema
    ```
 
    La aplicación estará disponible en `http://localhost:4200`
+
+## 🔐 Credenciales de Prueba
+
+**Para iniciar sesión:**
+
+- **Usuario**: `testadmin`
+- **Contraseña**: `admin123`
+
+Estas credenciales están pre-configuradas en la base de datos.
+
+## ▶️ Pasos para Ejecutar el Proyecto Completo
+
+1. ✅ Instalar MySQL y crear la base de datos (ejecutar `database/setup.sql`)
+2. ✅ Clonar y ejecutar el backend: `dotnet run` en el directorio del backend
+3. ✅ Clonar y ejecutar el frontend: `npm install && npm start`
+4. ✅ Abrir navegador en `http://localhost:4200`
+5. ✅ Hacer login con `testadmin` / `admin123`
+6. ✅ Probar el CRUD de tareas
 
 ## 📁 Estructura del Proyecto
 
