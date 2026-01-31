@@ -14,11 +14,10 @@ export class AuthService {
 
   private readonly apiUrl = environment.apiUrl;
 
-  private readonly TOKEN_KEY = 'auth_token';
   private readonly USER_KEY = 'auth_user';
 
   private readonly currentUserSignal = signal<User | null>(this.getUserFromStorage());
-  private readonly tokenSignal = signal<string | null>(this.getTokenFromStorage());
+  private readonly tokenSignal = signal<string | null>(this.getTokenFromUser());
 
   readonly currentUser = this.currentUserSignal.asReadonly();
   readonly token = this.tokenSignal.asReadonly();
@@ -44,22 +43,29 @@ export class AuthService {
   }
 
   private setSession(user: User): void {
-    localStorage.setItem(this.TOKEN_KEY, user.token);
+    // Solo guardamos el objeto user completo (ya incluye el token)
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     this.tokenSignal.set(user.token);
     this.currentUserSignal.set(user);
   }
 
   private clearSession(): void {
-    localStorage.removeItem(this.TOKEN_KEY);
+    // Solo limpiamos el objeto user
     localStorage.removeItem(this.USER_KEY);
+    // Limpiamos cualquier token residual de versiones anteriores
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('access_token');
     this.tokenSignal.set(null);
     this.currentUserSignal.set(null);
   }
 
-  private getTokenFromStorage(): string | null {
+  private getTokenFromUser(): string | null {
     if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(this.TOKEN_KEY);
+      const userJson = localStorage.getItem(this.USER_KEY);
+      if (userJson) {
+        const user = JSON.parse(userJson);
+        return user?.token || null;
+      }
     }
     return null;
   }
