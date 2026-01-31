@@ -13,27 +13,27 @@ export class TaskService {
   private readonly apiUrl = `${environment.apiUrl}/tareas`;
 
   getTasks(): Observable<Task[]> {
-    return this.http.get<TaskResponse>(this.apiUrl).pipe(
-      map(response => Array.isArray(response.data) ? response.data : [])
-    );
+    return this.http
+      .get<TaskResponse>(this.apiUrl)
+      .pipe(map((response) => (Array.isArray(response.data) ? response.data : [])));
   }
 
   getTask(id: number): Observable<Task> {
-    return this.http.get<TaskResponse>(`${this.apiUrl}/${id}`).pipe(
-      map(response => response.data as Task)
-    );
+    return this.http
+      .get<TaskResponse>(`${this.apiUrl}/${id}`)
+      .pipe(map((response) => response.data as Task));
   }
 
   createTask(task: CreateTaskRequest): Observable<Task> {
-    return this.http.post<TaskResponse>(this.apiUrl, task).pipe(
-      map(response => response.data as Task)
-    );
+    return this.http
+      .post<TaskResponse>(this.apiUrl, task)
+      .pipe(map((response) => response.data as Task));
   }
 
   updateTask(id: number, task: UpdateTaskRequest): Observable<Task> {
-    return this.http.put<TaskResponse>(`${this.apiUrl}/${id}`, task).pipe(
-      map(response => response.data as Task)
-    );
+    return this.http
+      .put<TaskResponse>(`${this.apiUrl}/${id}`, task)
+      .pipe(map((response) => response.data as Task));
   }
 
   deleteTask(id: number): Observable<void> {
@@ -41,8 +41,8 @@ export class TaskService {
   }
 
   toggleTaskStatus(id: number, completada: boolean): Observable<Task> {
-    return this.http.put<TaskResponse>(`${this.apiUrl}/${id}`, { completada }).pipe(
-      map(response => response.data as Task)
-    );
+    return this.http
+      .put<TaskResponse>(`${this.apiUrl}/${id}`, { completada })
+      .pipe(map((response) => response.data as Task));
   }
 }

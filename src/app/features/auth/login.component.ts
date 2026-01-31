@@ -18,8 +18,8 @@ export class LoginComponent {
   protected readonly error = signal<string | null>(null);
 
   protected readonly loginForm = this.fb.nonNullable.group({
-    usuario: ['', [Validators.required]],
-    contrasena: ['', [Validators.required, Validators.minLength(6)]],
+    usuario: ['testadmin', [Validators.required]],
+    contrasena: ['admin123', [Validators.required, Validators.minLength(6)]],
   });
 
   protected onSubmit(): void {
